@@ -15,38 +15,29 @@ body{
   color:#fff;
   overflow:hidden;
 }
-audio{display:none}
 
-/* SNOWFALL – VERY VISIBLE */
+/* REAL SNOW (VISIBLE ON MOBILE) */
 .snow{
-  position:fixed; inset:0;
+  position:fixed;
+  inset:0;
   pointer-events:none;
-  background-image:
-    radial-gradient(4px 4px at 20px 30px,#fff,transparent),
-    radial-gradient(3px 3px at 80px 120px,#fff,transparent),
-    radial-gradient(3px 3px at 200px 60px,#fff,transparent),
-    radial-gradient(2px 2px at 300px 200px,#fff,transparent),
-    radial-gradient(2px 2px at 400px 150px,#fff,transparent);
-  animation:snow 8s linear infinite;
-  opacity:.9;
+  background:url("https://i.imgur.com/NMZ6nJp.png") repeat;
+  animation:snowfall 18s linear infinite;
+  opacity:.85;
   z-index:1;
 }
-@keyframes snow{
-  to{background-position:0 1600px,0 1800px,0 2000px,0 2200px,0 2400px}
+@keyframes snowfall{
+  from{background-position:0 -1000px}
+  to{background-position:0 1000px}
 }
 
-/* DECOR LIGHTS */
+/* CHRISTMAS LIGHTS */
 .lights{
   position:fixed;
   top:0; left:0; right:0;
-  height:90px;
-  background:repeating-linear-gradient(
-    90deg,
-    gold 0 10px,
-    red 10px 20px,
-    green 20px 30px
-  );
-  opacity:.25;
+  height:80px;
+  background:url("https://i.imgur.com/1ZQZ1Zm.png") repeat-x;
+  background-size:contain;
   z-index:2;
 }
 
@@ -94,27 +85,39 @@ button{
 }
 .stage.active{display:flex}
 
-/* ENVELOPE */
+/* ENVELOPE (REAL) */
 .envelope{
-  width:320px;height:200px;
-  background:#f9f1e7;
-  border-radius:10px;
+  width:320px;
+  height:200px;
+  position:relative;
   cursor:pointer;
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:70px;
-  color:#c62828;
-  transition:transform .4s ease;
+  perspective:1000px;
 }
-.envelope.open{
-  transform:scale(1.05);
+.envelope .body{
+  position:absolute;
+  inset:0;
+  background:#f9f1e7;
+  border-radius:12px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+.envelope .flap{
+  position:absolute;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background:#e6d5c3;
+  clip-path:polygon(0 0,100% 0,50% 55%);
+  transform-origin:top;
+  transition:transform .8s ease;
+}
+.envelope.open .flap{
+  transform:rotateX(180deg);
 }
 
 /* GIFT */
 .gift{
-  width:260px;height:260px;
+  width:260px;
+  height:260px;
   background:#c62828;
   border-radius:16px;
   position:relative;
@@ -134,9 +137,10 @@ button{
   box-shadow:0 0 50px rgba(255,215,0,.9);
 }
 
-/* MODAL */
+/* MODAL LETTER (MOBILE SAFE) */
 .modal{
-  position:fixed; inset:0;
+  position:fixed;
+  inset:0;
   background:rgba(0,0,0,.85);
   display:none;
   align-items:center;
@@ -148,11 +152,14 @@ button{
   background:#fff8ec;
   color:#3b2f2f;
   border-radius:18px;
-  padding:40px;
-  max-width:900px;
+  padding:24px;
+  width:90vw;
+  max-width:800px;
+  max-height:85vh;
+  overflow-y:auto;
   font-family:'Great Vibes',cursive;
-  font-size:28px;
-  line-height:1.9;
+  font-size:clamp(20px,4.5vw,28px);
+  line-height:1.7;
 }
 .paper img{
   max-width:100%;
@@ -178,11 +185,11 @@ button{
   z-index:3;
 }
 .end.big{
-  font-size:44px;
+  font-size:clamp(26px,6vw,44px);
   font-family:Playfair Display,serif;
 }
 .signature{
-  font-size:100px;
+  font-size:clamp(60px,15vw,100px);
   color:gold;
   font-family:Playfair Display,serif;
 }
@@ -205,7 +212,10 @@ button{
 </header>
 
 <section class="stage active" id="s1">
-  <div class="envelope" onclick="openLetter(0,this)">✉</div>
+  <div class="envelope" onclick="openLetter(0,this)">
+    <div class="body"></div>
+    <div class="flap"></div>
+  </div>
 </section>
 
 <section class="stage" id="s2">
@@ -213,7 +223,10 @@ button{
 </section>
 
 <section class="stage" id="s3">
-  <div class="envelope" onclick="openLetter(1,this)">✉</div>
+  <div class="envelope" onclick="openLetter(1,this)">
+    <div class="body"></div>
+    <div class="flap"></div>
+  </div>
 </section>
 
 <section class="stage" id="s4">
@@ -221,7 +234,10 @@ button{
 </section>
 
 <section class="stage" id="s5">
-  <div class="envelope" onclick="openLetter(2,this)">✉</div>
+  <div class="envelope" onclick="openLetter(2,this)">
+    <div class="body"></div>
+    <div class="flap"></div>
+  </div>
 </section>
 
 <div class="modal" id="modal">
@@ -249,41 +265,38 @@ Both of us were scared, nervous, and excited in ways we had never felt before.
 We were just friends — but even that felt fragile and precious.
 Every smile carried hesitation.
 Every silence carried something unsaid.
-Nothing was promised, yet something quietly began.
-24 December 2024.
+Nothing was promised, yet something quietly began.<br><br>
+24 December 2024.<br>
 A Kinder Joy opened — not because it was rare,
 but because it was remembered.
 You heard a thought I never asked you to hear.
 That moment stayed with me.
-It always will.
-`,
+It always will.`,
 
-`I was never good at gifting.
+`I was never good at gifting.<br><br>
 So instead of buying something, I gave you the only place
 where all my emotions had ever lived.
 Hours of work.
 Tears that dried into threads.
-Laughter stitched between moments.
+Laughter stitched between moments.<br><br>
 When you held it and shivered,
 I knew it mattered.
 You saw me with such love.
-You said it ages later but
-i could see and sense it 
-that the seed of love has 
-started growing.`,
+You said it ages later,
+but I could see and sense it —
+the seed of love had begun to grow.`,
 
-`New journey<br><br>
-I will always remember that Christmas 
-it will always hold special place in my heart
-in our story in our journey 
-on that day we knew that it will be a long 
-yet happening journey for both of us 
-and i knew that i will always love you 
-and you will be the one for me 
-for Forever and ever 
-you and i ended 
-We began 
-`
+`A new journey began.<br><br>
+That Christmas will always hold a special place in my heart.
+In our story.
+In our journey.
+That day we knew it would be long,
+yet meaningful for both of us.<br><br>
+I knew I would always love you.
+That you would always be my Christmas.
+Forever and ever.
+We ended —
+and we began.`
 ];
 
 const gifts=[
@@ -303,17 +316,17 @@ function start(){
 function openLetter(i,el){
   el.classList.add("open");
   setTimeout(()=>{
-    document.getElementById("paper").innerHTML=
-      letters[i]+`<br><button class="close" onclick="closeModal()">Close</button>`;
+    document.getElementById("paper").innerHTML =
+      letters[i] + `<br><button class="close" onclick="closeModal()">Close</button>`;
     document.getElementById("modal").classList.add("open");
-  },600);
+  },800);
 }
 
 function openGift(i,el){
   el.classList.add("open");
   setTimeout(()=>{
-    document.getElementById("paper").innerHTML=
-      gifts[i]+`<br><button class="close" onclick="closeModal()">Close</button>`;
+    document.getElementById("paper").innerHTML =
+      gifts[i] + `<br><button class="close" onclick="closeModal()">Close</button>`;
     document.getElementById("modal").classList.add("open");
   },600);
 }
