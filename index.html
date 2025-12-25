@@ -16,7 +16,7 @@ body{
   overflow:hidden;
 }
 
-/* ---------------- SNOW ---------------- */
+/* SNOW */
 .snow-container{
   position:fixed;
   inset:0;
@@ -34,7 +34,7 @@ body{
   to{transform:translateY(110vh)}
 }
 
-/* ---------------- DECOR GARLAND ---------------- */
+/* GARLAND */
 .garland{
   position:fixed;
   top:0;
@@ -54,7 +54,7 @@ body{
   to{opacity:1}
 }
 
-/* ---------------- INTRO ---------------- */
+/* INTRO */
 header{
   min-height:100vh;
   display:flex;
@@ -88,7 +88,7 @@ button{
   cursor:pointer;
 }
 
-/* ---------------- STAGES ---------------- */
+/* STAGES */
 .stage{
   min-height:100vh;
   display:none;
@@ -99,7 +99,7 @@ button{
 }
 .stage.active{display:flex}
 
-/* ---------------- ENVELOPE ---------------- */
+/* ENVELOPE */
 .envelope{
   width:320px;
   height:200px;
@@ -128,7 +128,7 @@ button{
   transform:rotateX(180deg);
 }
 
-/* ---------------- GIFT ---------------- */
+/* GIFT */
 .gift{
   width:260px;
   height:260px;
@@ -151,7 +151,7 @@ button{
   box-shadow:0 0 50px rgba(255,215,0,.9);
 }
 
-/* ---------------- MODAL ---------------- */
+/* MODAL */
 .modal{
   position:fixed;
   inset:0;
@@ -177,8 +177,9 @@ button{
 }
 .paper img{
   max-width:100%;
-  border-radius:14px;
+  border-radius:16px;
   margin:20px 0;
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
 }
 .close{
   margin-top:20px;
@@ -189,7 +190,7 @@ button{
   border-radius:12px;
 }
 
-/* ---------------- END ---------------- */
+/* END */
 .end{
   min-height:100vh;
   display:none;
@@ -268,11 +269,13 @@ button{
 </section>
 
 <section class="end" id="e3">
-  <div class="big">🎄 Forever Your Christmas 🎄</div>
+  <img src="assets/final.png.png" alt="Final Christmas Sketch"
+       style="max-width:90%;border-radius:20px;
+              box-shadow:0 20px 60px rgba(0,0,0,.6)">
 </section>
 
 <script>
-/* CREATE SNOW */
+/* SNOW */
 const snowContainer=document.getElementById("snowContainer");
 for(let i=0;i<70;i++){
   const s=document.createElement("div");
@@ -311,16 +314,17 @@ A long journey began.
 A meaningful one.
 I knew you would always be my Christmas.
 Forever and ever.
-you and 1 ended —
+You and I ended —
 and we began.`
 ];
 
 const gifts=[
-`<img src="https://via.placeholder.com/800x450?text=Boy+Holding+Kinder+Joy+Blue+Bag"><br>
-That Kinder Joy carried care.`,
+`<img src="assets/kinderjoy.png.png" alt="Kinder Joy Memory"><br>
+That Kinder Joy was small.<br>
+But it carried care, memory, and attention.`,
 
-`<img src="https://via.placeholder.com/800x450?text=Boy+Giving+Orange+Scarf"><br>
-That scarf held my heart.`
+`<img src="assets/scarf.png.png" alt="Orange Scarf Memory"><br>
+That scarf held everything I couldn’t say out loud.`
 ];
 
 function start(){
