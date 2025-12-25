@@ -16,32 +16,45 @@ body{
   overflow:hidden;
 }
 
-/* REAL SNOW (VISIBLE ON MOBILE) */
-.snow{
+/* ---------------- SNOW ---------------- */
+.snow-container{
   position:fixed;
   inset:0;
   pointer-events:none;
-  background:url("https://i.imgur.com/NMZ6nJp.png") repeat;
-  animation:snowfall 18s linear infinite;
-  opacity:.85;
   z-index:1;
 }
-@keyframes snowfall{
-  from{background-position:0 -1000px}
-  to{background-position:0 1000px}
+.snowflake{
+  position:absolute;
+  top:-10px;
+  color:white;
+  opacity:.9;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(110vh)}
 }
 
-/* CHRISTMAS LIGHTS */
-.lights{
+/* ---------------- DECOR GARLAND ---------------- */
+.garland{
   position:fixed;
-  top:0; left:0; right:0;
-  height:80px;
-  background:url("https://i.imgur.com/1ZQZ1Zm.png") repeat-x;
-  background-size:contain;
+  top:0;
+  left:0;
+  right:0;
+  height:70px;
+  background:
+    radial-gradient(circle at 20px 35px, gold 6px, transparent 7px),
+    radial-gradient(circle at 60px 35px, red 6px, transparent 7px),
+    radial-gradient(circle at 100px 35px, green 6px, transparent 7px);
+  background-size:120px 70px;
+  animation:blink 2s infinite alternate;
   z-index:2;
 }
+@keyframes blink{
+  from{opacity:.6}
+  to{opacity:1}
+}
 
-/* INTRO */
+/* ---------------- INTRO ---------------- */
 header{
   min-height:100vh;
   display:flex;
@@ -49,6 +62,7 @@ header{
   justify-content:center;
   text-align:center;
   padding:30px;
+  position:relative;
   z-index:3;
 }
 .card{
@@ -74,7 +88,7 @@ button{
   cursor:pointer;
 }
 
-/* STAGES */
+/* ---------------- STAGES ---------------- */
 .stage{
   min-height:100vh;
   display:none;
@@ -85,7 +99,7 @@ button{
 }
 .stage.active{display:flex}
 
-/* ENVELOPE (REAL) */
+/* ---------------- ENVELOPE ---------------- */
 .envelope{
   width:320px;
   height:200px;
@@ -114,7 +128,7 @@ button{
   transform:rotateX(180deg);
 }
 
-/* GIFT */
+/* ---------------- GIFT ---------------- */
 .gift{
   width:260px;
   height:260px;
@@ -137,7 +151,7 @@ button{
   box-shadow:0 0 50px rgba(255,215,0,.9);
 }
 
-/* MODAL LETTER (MOBILE SAFE) */
+/* ---------------- MODAL ---------------- */
 .modal{
   position:fixed;
   inset:0;
@@ -175,13 +189,14 @@ button{
   border-radius:12px;
 }
 
-/* END SCREENS */
+/* ---------------- END ---------------- */
 .end{
   min-height:100vh;
   display:none;
   align-items:center;
   justify-content:center;
   text-align:center;
+  position:relative;
   z-index:3;
 }
 .end.big{
@@ -198,8 +213,8 @@ button{
 
 <body>
 
-<div class="snow"></div>
-<div class="lights"></div>
+<div class="snow-container" id="snowContainer"></div>
+<div class="garland"></div>
 
 <audio id="bgm" src="jingle-bells-soft.mp3" loop></audio>
 
@@ -253,59 +268,59 @@ button{
 </section>
 
 <section class="end" id="e3">
-  <img src="https://via.placeholder.com/900x520?text=Final+Christmas+Sketch" alt="Final Sketch">
+  <div class="big">🎄 Forever Your Christmas 🎄</div>
 </section>
 
 <script>
+/* CREATE SNOW */
+const snowContainer=document.getElementById("snowContainer");
+for(let i=0;i<70;i++){
+  const s=document.createElement("div");
+  s.className="snowflake";
+  s.innerHTML="❄";
+  s.style.left=Math.random()*100+"vw";
+  s.style.fontSize=(10+Math.random()*12)+"px";
+  s.style.animationDuration=(6+Math.random()*6)+"s";
+  s.style.opacity=Math.random();
+  snowContainer.appendChild(s);
+}
+
 let step=1;
 
 const letters=[
 `Everything was new that night.<br><br>
-Both of us were scared, nervous, and excited in ways we had never felt before.
-We were just friends — but even that felt fragile and precious.
-Every smile carried hesitation.
-Every silence carried something unsaid.
-Nothing was promised, yet something quietly began.<br><br>
-24 December 2024.<br>
-A Kinder Joy opened — not because it was rare,
-but because it was remembered.
-You heard a thought I never asked you to hear.
-That moment stayed with me.
-It always will.`,
+Both of us were scared, nervous, and excited.
+We were just friends — yet even that felt fragile.
+Every silence carried more than words.
+Nothing was promised, but something quietly began.<br><br>
+24 December 2024.
+A Kinder Joy opened.
+Not because it was rare —
+but because it was remembered.`,
 
 `I was never good at gifting.<br><br>
-So instead of buying something, I gave you the only place
-where all my emotions had ever lived.
+So I gave you the only place my emotions lived.
 Hours of work.
-Tears that dried into threads.
-Laughter stitched between moments.<br><br>
+Tears stitched into threads.
 When you held it and shivered,
 I knew it mattered.
-You saw me with such love.
-You said it ages later,
-but I could see and sense it —
-the seed of love had begun to grow.`,
+The seed of love had begun to grow.`,
 
-`A new journey began.<br><br>
-That Christmas will always hold a special place in my heart.
-In our story.
-In our journey.
-That day we knew it would be long,
-yet meaningful for both of us.<br><br>
-I knew I would always love you.
-That you would always be my Christmas.
+`That Christmas changed everything.<br><br>
+A long journey began.
+A meaningful one.
+I knew you would always be my Christmas.
 Forever and ever.
-We ended —
+you and 1 ended —
 and we began.`
 ];
 
 const gifts=[
 `<img src="https://via.placeholder.com/800x450?text=Boy+Holding+Kinder+Joy+Blue+Bag"><br>
-That Kinder Joy was small.<br>
-But it carried care, memory, and attention.`,
+That Kinder Joy carried care.`,
 
 `<img src="https://via.placeholder.com/800x450?text=Boy+Giving+Orange+Scarf"><br>
-That scarf held everything I couldn’t say out loud.`
+That scarf held my heart.`
 ];
 
 function start(){
@@ -316,8 +331,8 @@ function start(){
 function openLetter(i,el){
   el.classList.add("open");
   setTimeout(()=>{
-    document.getElementById("paper").innerHTML =
-      letters[i] + `<br><button class="close" onclick="closeModal()">Close</button>`;
+    document.getElementById("paper").innerHTML=
+      letters[i]+`<br><button class="close" onclick="closeModal()">Close</button>`;
     document.getElementById("modal").classList.add("open");
   },800);
 }
@@ -325,8 +340,8 @@ function openLetter(i,el){
 function openGift(i,el){
   el.classList.add("open");
   setTimeout(()=>{
-    document.getElementById("paper").innerHTML =
-      gifts[i] + `<br><button class="close" onclick="closeModal()">Close</button>`;
+    document.getElementById("paper").innerHTML=
+      gifts[i]+`<br><button class="close" onclick="closeModal()">Close</button>`;
     document.getElementById("modal").classList.add("open");
   },600);
 }
