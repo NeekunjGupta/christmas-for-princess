@@ -16,7 +16,16 @@ body{
   overflow:hidden;
 }
 
-/* SNOW */
+/* ---------- FADE ---------- */
+.fade{
+  opacity:0;
+  transition:opacity .9s ease;
+}
+.fade.show{
+  opacity:1;
+}
+
+/* ---------- SNOW ---------- */
 .snow-container{
   position:fixed;
   inset:0;
@@ -34,7 +43,7 @@ body{
   to{transform:translateY(110vh)}
 }
 
-/* GARLAND */
+/* ---------- GARLAND ---------- */
 .garland{
   position:fixed;
   top:0;
@@ -54,7 +63,7 @@ body{
   to{opacity:1}
 }
 
-/* INTRO */
+/* ---------- INTRO ---------- */
 header{
   min-height:100vh;
   display:flex;
@@ -88,7 +97,7 @@ button{
   cursor:pointer;
 }
 
-/* STAGES */
+/* ---------- STAGES ---------- */
 .stage{
   min-height:100vh;
   display:none;
@@ -99,7 +108,7 @@ button{
 }
 .stage.active{display:flex}
 
-/* ENVELOPE */
+/* ---------- ENVELOPE ---------- */
 .envelope{
   width:320px;
   height:200px;
@@ -128,7 +137,7 @@ button{
   transform:rotateX(180deg);
 }
 
-/* GIFT */
+/* ---------- GIFT ---------- */
 .gift{
   width:260px;
   height:260px;
@@ -151,7 +160,7 @@ button{
   box-shadow:0 0 50px rgba(255,215,0,.9);
 }
 
-/* MODAL */
+/* ---------- MODAL ---------- */
 .modal{
   position:fixed;
   inset:0;
@@ -190,7 +199,7 @@ button{
   border-radius:12px;
 }
 
-/* END */
+/* ---------- END ---------- */
 .end{
   min-height:100vh;
   display:none;
@@ -219,37 +228,37 @@ button{
 
 <audio id="bgm" src="jingle-bells-soft.mp3" loop></audio>
 
-<header>
+<header class="fade show">
   <div class="card">
     <h1>25 December 2025</h1>
-    <p>This is christmas present.<br>This is a memory kept for you, Princess.</p>
+    <p>This is a Christmas present.<br>This is a memory kept for you, Princess.</p>
     <button onclick="start()">Open</button>
   </div>
 </header>
 
-<section class="stage active" id="s1">
+<section class="stage fade active show" id="s1">
   <div class="envelope" onclick="openLetter(0,this)">
     <div class="body"></div>
     <div class="flap"></div>
   </div>
 </section>
 
-<section class="stage" id="s2">
+<section class="stage fade" id="s2">
   <div class="gift" onclick="openGift(0,this)"></div>
 </section>
 
-<section class="stage" id="s3">
+<section class="stage fade" id="s3">
   <div class="envelope" onclick="openLetter(1,this)">
     <div class="body"></div>
     <div class="flap"></div>
   </div>
 </section>
 
-<section class="stage" id="s4">
+<section class="stage fade" id="s4">
   <div class="gift" onclick="openGift(1,this)"></div>
 </section>
 
-<section class="stage" id="s5">
+<section class="stage fade" id="s5">
   <div class="envelope" onclick="openLetter(2,this)">
     <div class="body"></div>
     <div class="flap"></div>
@@ -260,15 +269,15 @@ button{
   <div class="paper" id="paper"></div>
 </div>
 
-<section class="end big" id="e1">
+<section class="end big fade" id="e1">
   I will always be your friend<br>and I truly love you
 </section>
 
-<section class="end" id="e2">
+<section class="end fade" id="e2">
   <div class="signature">N</div>
 </section>
 
-<section class="end" id="e3">
+<section class="end fade" id="e3">
   <img src="assets/final.png.png" alt="Final Christmas Sketch"
        style="max-width:90%;border-radius:20px;
               box-shadow:0 20px 60px rgba(0,0,0,.6)">
@@ -319,17 +328,23 @@ and we began.`
 ];
 
 const gifts=[
-`<img src="assets/kinderjoy.png.png" alt="Kinder Joy Memory"><br>
+`<img src="assets/kinderjoy.png.png"><br>
 That Kinder Joy was small.<br>
 But it carried care, memory, and attention.`,
 
-`<img src="assets/scarf.png.png" alt="Orange Scarf Memory"><br>
+`<img src="assets/scarf.png.png"><br>
 That scarf held everything I couldn’t say out loud.`
 ];
 
 function start(){
   document.getElementById("bgm").play();
-  document.querySelector("header").style.display="none";
+  const intro=document.querySelector("header");
+  intro.classList.remove("show");
+  setTimeout(()=>{
+    intro.style.display="none";
+    const first=document.getElementById("s1");
+    first.classList.add("show");
+  },900);
 }
 
 function openLetter(i,el){
@@ -352,17 +367,44 @@ function openGift(i,el){
 
 function closeModal(){
   document.getElementById("modal").classList.remove("open");
-  document.getElementById("s"+step).classList.remove("active");
-  step++;
-  if(step<=5){
-    document.getElementById("s"+step).classList.add("active");
-  }else{
-    document.getElementById("e1").style.display="flex";
-    setTimeout(()=>{document.getElementById("e1").style.display="none";
-    document.getElementById("e2").style.display="flex";},5000);
-    setTimeout(()=>{document.getElementById("e2").style.display="none";
-    document.getElementById("e3").style.display="flex";},9000);
-  }
+  const current=document.getElementById("s"+step);
+  current.classList.remove("show");
+
+  setTimeout(()=>{
+    current.classList.remove("active");
+    step++;
+
+    if(step<=5){
+      const next=document.getElementById("s"+step);
+      next.classList.add("active");
+      setTimeout(()=>next.classList.add("show"),50);
+    }else{
+      const e1=document.getElementById("e1");
+      e1.style.display="flex";
+      e1.classList.add("show");
+
+      setTimeout(()=>{
+        e1.classList.remove("show");
+        setTimeout(()=>{
+          e1.style.display="none";
+          const e2=document.getElementById("e2");
+          e2.style.display="flex";
+          e2.classList.add("show");
+        },900);
+      },5000);
+
+      setTimeout(()=>{
+        const e2=document.getElementById("e2");
+        e2.classList.remove("show");
+        setTimeout(()=>{
+          e2.style.display="none";
+          const e3=document.getElementById("e3");
+          e3.style.display="flex";
+          e3.classList.add("show");
+        },900);
+      },9000);
+    }
+  },900);
 }
 </script>
 
