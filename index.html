@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🎄 For My Princess</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#c62828; --white:#fffaf7; --gold:#f5c76a; --green:#2e7d32;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:Poppins, sans-serif; color:var(--white);
+  background: radial-gradient(circle at top, #7a1f1f, #2b0b0b);
+  overflow-x:hidden;
+}
+.snow{position:fixed; inset:0; pointer-events:none; background-image:
+  radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+  radial-gradient(1.5px 1.5px at 80px 120px, #fff, transparent),
+  radial-gradient(1.2px 1.2px at 200px 60px, #fff, transparent);
+  animation:snow 18s linear infinite; opacity:.6}
+@keyframes snow{to{background-position:0 600px,0 800px,0 1000px}}header{min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:32px} .card{background:rgba(255,255,255,.06); border:1px solid rgba(245,199,106,.35); border-radius:18px; padding:28px; max-width:720px; box-shadow:0 20px 60px rgba(0,0,0,.35)} .h1{font-family:Playfair Display, serif; font-size:36px; color:var(--gold)} .p{font-size:16px; line-height:1.7}
+
+.stage{min-height:100vh; padding:48px 20px; display:none} .stage.active{display:block} .decor{display:flex; gap:18px; justify-content:center; margin-bottom:18px} .orn{width:14px; height:14px; border-radius:50%; background:var(--gold); box-shadow:0 0 12px rgba(245,199,106,.8)}
+
+.gifts{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:22px; max-width:900px; margin:0 auto} .gift{cursor:pointer; padding:22px; border-radius:16px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.2); text-align:center; transition:.3s} .gift:hover{transform:translateY(-4px)} .gift.box{border-color:rgba(245,199,106,.5)} .gift.env{border-style:dashed}
+
+.modal{position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center} .modal.open{display:flex} .paper{background:#fffaf0; color:#3b2f2f; border-radius:16px; padding:26px; max-width:680px; box-shadow:0 30px 80px rgba(0,0,0,.5)} .paper h2{font-family:Playfair Display, serif} .close{margin-top:18px; padding:10px 16px; border-radius:10px; border:none; background:var(--red); color:white}
+
+.end{min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center} .fade{opacity:0; animation:fade 4s forwards} .fade.delay{animation-delay:3.5s} @keyframes fade{to{opacity:1}} </style>
+
+</head>
+<body>
+<div class="snow"></div><header>
+  <div class="card">
+    <div class="h1">A Year. A Night. A Gift.</div>
+    <p class="p">This year… this night… this is for you, <b>Princess</b>. What follows was kept by Time since <b>24 December 2024</b>, and returned only now.</p>
+    <button class="close" onclick="start()">Open</button>
+  </div>
+</header><section id="stage1" class="stage active">
+  <div class="decor"><div class="orn"></div><div class="orn"></div><div class="orn"></div></div>
+  <div class="gifts">
+    <div class="gift env" onclick="openGift(1)">✉️ Memory</div>
+    <div class="gift box" onclick="openGift(4)">🎁 Christmas</div>
+    <div class="gift env" onclick="openGift(2)">✉️ Memory</div>
+    <div class="gift box" onclick="openGift(5)">🎁 Christmas</div>
+    <div class="gift env" onclick="openGift(3)">✉️ Memory</div>
+  </div>
+</section><div id="modal" class="modal">
+  <div class="paper" id="paper"></div>
+</div><section id="end" class="end" style="display:none">
+  <div>
+    <div class="fade" style="font-size:22px">I will always be your friend and I truly love you.</div>
+    <div class="fade delay" style="margin-top:16px; font-size:26px; color:var(--gold)">— N</div>
+  </div>
+</section><script>
+const texts={
+1:`<h2>Time remembers</h2><p>It was all new. Fear, nervousness, excitement—arriving together. Two people stepping carefully into friendship, not knowing how much weight a moment could carry.</p>`,
+2:`<h2>Time remembers</h2><p>On the first Christmas we shared in presence, <b>24 December 2024</b>, a small secret waited. A Kinder Joy, hidden in a bag and remembered, opened exactly at midnight—proof that being heard can quietly change a heart.</p>`,
+3:`<h2>Time remembers</h2><p>Hands unsure, courage trembling. A gift made with tears, laughter, and hours of quiet work—offered whole. The shiver said everything words could not.</p>`,
+4:`<h2>Christmas</h2><p>Christmas became care. Not the size of the gift, but the listening that wrapped it. Time smiled and kept that night warm.</p>`,
+5:`<h2>Christmas</h2><p>Gratitude arrived softly. For presence. For courage. For a year that existed because you did.</p>`
+};
+let opened=0;
+function start(){window.scrollTo(0,document.querySelector('#stage1').offsetTop)}
+function openGift(i){
+  document.getElementById('paper').innerHTML=texts[i]+"<button class='close' onclick='closeGift()'>Close</button>";
+  document.getElementById('modal').classList.add('open');
+}
+function closeGift(){
+  document.getElementById('modal').classList.remove('open');
+  opened++; if(opened>=5){ document.getElementById('stage1').style.display='none'; document.getElementById('end').style.display='flex'; }
+}
+</script></body>
+</html>
